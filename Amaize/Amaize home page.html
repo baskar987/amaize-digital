@@ -1,0 +1,741 @@
+<link rel="stylesheet" href="amaize.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vertical Scrolling Loop Section</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f9fafb;
+            color: #1a1d29;
+        }
+
+        .hero-section {
+            display: flex;
+            min-height: 100vh;
+            padding: 2rem;
+            gap: 2rem;
+        }
+
+        .hero-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 50%;
+            padding-right: 2rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: #4b5563;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: #1a1d29;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f9fafb;
+            border-color: #9ca3af;
+        }
+
+        .loop-section {
+            flex: 1;
+            max-width: 50%;
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+
+        .loop-track-container {
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .loop-track {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            animation: scroll 30s linear infinite;
+        }
+
+        .loop-track-reverse {
+            animation-direction: reverse;
+        }
+
+        .loop-item {
+            background-color: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s;
+        }
+
+        .loop-item:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .loop-tag {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .icon-loop {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        .loop-image {
+            width: 100%;
+            border-radius: 0.375rem;
+            margin-top: 0.5rem;
+        }
+
+        .instagram-frame {
+            border-radius: 0.5rem;
+            overflow: hidden;
+            border: 1px solid #dbdbdb;
+            background-color: white;
+        }
+
+        .instagram-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+        }
+
+        .instagram-logo-text-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .instagram-avatar {
+            width: 1.75rem;
+            height: 1.75rem;
+            border-radius: 50%;
+        }
+
+        .instagram-name {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .instagram-dots {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .instagram-image-holder {
+            position: relative;
+        }
+
+        .instagram-main-image {
+            width: 100%;
+            display: block;
+        }
+
+        .instagram-overlay-image {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            width: 40%;
+        }
+
+        .instagram-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+        }
+
+        .instagram-icons-wrapper {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .icon-instagram {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .loop-widget {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .stats-widget {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+        }
+
+        .stats-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .stats-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .stats-change {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .stats-change.positive {
+            color: #10b981;
+        }
+
+        .ad-widget {
+            background-color: #fef3c7;
+            border: 1px solid #f59e0b;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+
+        .ad-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .ad-button {
+            background-color: #1a1d29;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+        .blog-preview {
+            padding: 1rem;
+            border-left: 3px solid #3b82f6;
+        }
+
+        .blog-category {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .carousel-widget {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .carousel-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background-color: #f3f4f6;
+            border-radius: 0.375rem;
+        }
+
+        .carousel-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .carousel-text {
+            font-weight: 500;
+        }
+
+        .loop-track-holder {
+            display: flex;
+            gap: 1rem;
+            height: 100%;
+        }
+
+        .loop-column {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-50%);
+            }
+        }
+
+        .loop-track-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 20%;
+            background: linear-gradient(to bottom, transparent, #f9fafb);
+            pointer-events: none;
+        }
+
+        .loop-track-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20%;
+            background: linear-gradient(to top, transparent, #f9fafb);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .hero-content, .loop-section {
+                max-width: 100%;
+            }
+            
+            .hero-content {
+                padding-right: 0;
+                margin-bottom: 2rem;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hide-on-mobile {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Transform your social media presence with AI-powered content</h1>
+            <p class="hero-description">Create, schedule, and analyze high-performing content across all platforms with our intuitive AI tools. Save time and grow your audience faster.</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-primary">Start Free Trial</a>
+                <a href="#" class="btn btn-secondary">Book a Demo</a>
+            </div>
+        </div>
+        
+        <div class="loop-section hide-on-mobile">
+            <div class="loop-track-holder">
+                <div class="loop-column">
+                    <div class="loop-track-container">
+                        <div class="loop-track">
+                            <!-- First set of items -->
+                            <div class="loop-item">
+                                <div class="loop-tag">
+                                    <svg class="icon-loop" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4 8V4H20V8" stroke="currentColor" stroke-width="2"/>
+                                        <rect x="6" y="6" width="12" height="12" rx="1" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                    <div>Short-Form Videos</div>
+                                </div>
+                                <img src="https://cdn.prod.website-files.com/62dfda81ce230012b18b376c/6807445498bf020e3b244003_Frame%201618871758.png" alt="Video content" class="loop-image">
+                            </div>
+                            
+                            <div class="loop-item">
+                                <div class="instagram-frame">
+                                    <div class="instagram-top">
+                                        <div class="instagram-logo-text-wrap">
+                                            <img src="https://cdn.prod.website-files.com/62dfda81ce230012b18b376c/680745be1a1c6da1cc37c7f1_Avatar%20(4).png" alt="Business" class="instagram-avatar">
+                                            <div class="instagram-name">
+                                                <div>Business</div>
+                                                <svg class="icon-instagram" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12 2C13.6569 2 15 3.34315 15 5C15 6.65685 13.6569 8 12 8C10.3431 8 9 6.65685 9 5C9 3.34315 10.3431 2 12 2Z" fill="currentColor"/>
+                                                    <path d="M12 10C14.2091 10 16 11.7909 16 14V22H8V14C8 11.7909 9.79086 10 12 10Z" fill="currentColor"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <svg class="instagram-dots" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="12" cy="6" r="1.5" fill="currentColor"/>
+                                            <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+                                            <circle cx="12" cy="18" r="1.5" fill="currentColor"/>
+                                        </svg>
+                                    </div>
+                                    <div class="instagram-image-holder">
+                                        <img src="https://cdn.prod.website-files.com/62dfda81ce230012b18b376c/680746188b5461fc274972bf_f9f3b515a4821ad28185d1b3abcd41f4_1_1.png" alt="Instagram post" class="instagram-main-image">
+                                        <img src="https://cdn.prod.website-files.com/62dfda81ce230012b18b376c/680747cdee709e4967cd06a7_Frame%201618871996.svg" alt="Overlay" class="instagram-overlay-image">
+                                    </div>
+                                    <div class="instagram-bottom">
+                                        <div class="instagram-icons-wrapper">
+                                            <svg class="icon-instagram" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M20.84 4.61C20.3292 4.099 19.7228 3.69364 19.0554 3.41708C18.3879 3.14052 17.6725 2.99817 16.95 2.99817C16.2275 2.99817 15.5121 3.14052 14.8446 3.41708C14.1772 3.69364 13.5708 4.099 13.06 4.61L12 5.67L10.94 4.61C9.9083 3.5783 8.50903 2.9987 7.05 2.9987C5.59096 2.9987 4.19169 3.5783 3.16 4.61C2.1283 5.6417 1.5487 7.04097 1.5487 8.5C1.5487 9.95903 2.1283 11.3583 3.16 12.39L4.22 13.45L12 21.23L19.78 13.45L20.84 12.39C21.351 11.8792 21.7563 11.2728 22.0329 10.6053C22.3095 9.93789 22.4518 9.22248 22.4518 8.5C22.4518 7.77752 22.3095 7.06211 22.0329 6.39465C21.7563 5.72719 21.351 5.12075 20.84 4.61Z" stroke="currentColor" stroke-width="2"/>
+                                            </svg>
+                                            <svg class="icon-instagram" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2"/>
+                                            </svg>
+                                            <svg class="icon-instagram" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2"/>
+                                            </svg>
+                                        </div>
+                                        <svg class="icon-instagram" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M19 21L12 16L5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21Z" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="loop-item">
+                                <div class="loop-widget">
+                                    <div class="stats-widget">
+                                        <div class="stats-value">129K</div>
+                                        <div class="stats-label">Reach</div>
+                                        <div class="stats-change positive">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="#10b981" stroke-width="2"/>
+                                            </svg>
+                                            +348%
+                                        </div>
+                                    </div>
+                                    <div class="stats-widget" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                        <div class="stats-value">68%</div>
+                                        <div class="stats-label">Last 3 month</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="loop-item">
+                                <div class="blog-preview">
+                                    <div class="blog-category">Mental Health</div>
+                                    <h3 class="blog-title">The Role of Healthy Communication at Work</h3>
+                                    <p>Improving workplace communication can boost productivity and employee satisfaction.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="loop-item">
+                                <div class="ad-widget">
+                                    <div class="ad-title">Beauty meets science</div>
+                                    <p>Discover our innovative products</p>
+                                    <a href="#" class="ad-button">Shop Now</a>
+                                </div>
+                            </div>
+
+                            <!-- Duplicate set for seamless looping -->
+                            <div class="loop-item">
+                                <div class="loop-tag">
+                                    <svg class="icon-loop" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M4 8V4H20V8" stroke="currentColor" stroke-width="2"/>
+                                        <rect x="6" y="6" width="12" height="12" rx="1" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                    <div>Short-Form Videos</div>
+                                </div>
+                                <img src="https://cdn.prod.website-files.com/62dfda81ce230012b18b376c/6807445498bf020e3b244003_Frame%201618871758.png" alt="Video content" class="loop-image">
+                            </div>
+                            
+                            <div class="loop-item">
+                                <div class="instagram-frame">
+                                    <div class="instagram-top">
+                                        <div class="instagram-logo-text-wrap">
+                                            <img src="https://cdn.prod.website-files.com/62dfda81ce230012b18b376c/680745be1a1c6da1cc37c7f1_Avatar%20(4).png" alt="Business" class="instagram-avatar">
+                                            <div class="instagram-name">
+                                                <div>Business</div>
+                                                <svg class="icon-instagram" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M12 2C13.6569 2 15 3.34315 15 5C15 6.65685 13.6569 8 12 8C10.3431 8 9 6.65685 9 5C9 3.34315 10.3431 2 12 2Z" fill="currentColor"/>
+                                                    <path d="M12 10C14.2091 10 16 11.7909 16 14V22H8V14C8 11.7909 9.79086 10 12 10Z" fill="currentColor"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <svg class="instagram-dots" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="12" cy="6" r="1.5" fill="currentColor"/>
+                                            <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+                                            <circle cx="12" cy="18" r="1.5" fill="currentColor"/>
+                                        </svg>
+                                    </div>
+                                    <div class="instagram-image-holder">
+                                        <img src="https://cdn.prod.website-files.com/62dfda81ce230012b18b376c/680746188b5461fc274972bf_f9f3b515a4821ad28185d1b3abcd41f4_1_1.png" alt="Instagram post" class="instagram-main-image">
+                                        <img src="https://cdn.prod.website-files.com/62dfda81ce230012b18b376c/680747cdee709e4967cd06a7_Frame%201618871996.svg" alt="Overlay" class="instagram-overlay-image">
+                                    </div>
+                                    <div class="instagram-bottom">
+                                        <div class="instagram-icons-wrapper">
+                                            <svg class="icon-instagram" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M20.84 4.61C20.3292 4.099 19.7228 3.69364 19.0554 3.41708C18.3879 3.14052 17.6725 2.99817 16.95 2.99817C16.2275 2.99817 15.5121 3.14052 14.8446 3.41708C14.1772 3.69364 13.5708 4.099 13.06 4.61L12 5.67L10.94 4.61C9.9083 3.5783 8.50903 2.9987 7.05 2.9987C5.59096 2.9987 4.19169 3.5783 3.16 4.61C2.1283 5.6417 1.5487 7.04097 1.5487 8.5C1.5487 9.95903 2.1283 11.3583 3.16 12.39L4.22 13.45L12 21.23L19.78 13.45L20.84 12.39C21.351 11.8792 21.7563 11.2728 22.0329 10.6053C22.3095 9.93789 22.4518 9.22248 22.4518 8.5C22.4518 7.77752 22.3095 7.06211 22.0329 6.39465C21.7563 5.72719 21.351 5.12075 20.84 4.61Z" stroke="currentColor" stroke-width="2"/>
+                                            </svg>
+                                            <svg class="icon-instagram" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2"/>
+                                            </svg>
+                                            <svg class="icon-instagram" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2"/>
+                                            </svg>
+                                        </div>
+                                        <svg class="icon-instagram" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M19 21L12 16L5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21Z" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="loop-item">
+                                <div class="loop-widget">
+                                    <div class="stats-widget">
+                                        <div class="stats-value">129K</div>
+                                        <div class="stats-label">Reach</div>
+                                        <div class="stats-change positive">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="#10b981" stroke-width="2"/>
+                                            </svg>
+                                            +348%
+                                        </div>
+                                    </div>
+                                    <div class="stats-widget" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                                        <div class="stats-value">68%</div>
+                                        <div class="stats-label">Last 3 month</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="loop-item">
+                                <div class="blog-preview">
+                                    <div class="blog-category">Mental Health</div>
+                                    <h3 class="blog-title">The Role of Healthy Communication at Work</h3>
+                                    <p>Improving workplace communication can boost productivity and employee satisfaction.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="loop-item">
+                                <div class="ad-widget">
+                                    <div class="ad-title">Beauty meets science</div>
+                                    <p>Discover our innovative products</p>
+                                    <a href="#" class="ad-button">Shop Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="loop-column">
+                    <div class="loop-track-container">
+                        <div class="loop-track loop-track-reverse">
+                            <!-- First set of items -->
+                            <div class="loop-item">
+                                <div class="loop-tag">
+                                    <svg class="icon-loop" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M19 11H5M5 11L9 7M5 11L9 15" stroke="currentColor" stroke-width="2"/>
+                                        <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                    <div>Email Design</div>
+                                </div>
+                                <div style="text-align: center; padding: 1rem 0;">
+                                    <div style="font-weight: 600; margin-bottom: 0.5rem;">NEW STYLES</div>
+                                    <div>JUST DROPPED</div>
+                                </div>
+                            </div>
+                            
+                            <div class="loop-item">
+                                <div class="carousel-widget">
+                                    <div class="carousel-item">
+                                        <svg class="carousel-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M19 12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12Z" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M12 2V4" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M12 20V22" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M4 12H2" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M22 12H20" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                        <div class="carousel-text">SEO Backlinks</div>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <svg class="carousel-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M8 12H16M8 8H16M8 16H12" stroke="currentColor" stroke-width="2"/>
+                                            <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                        <div class="carousel-text">Content Strategy</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="loop-item">
+                                <div class="blog-preview" style="border-left-color: #10b981;">
+                                    <div class="blog-category">Food & Beverages</div>
+                                    <h3 class="blog-title">How Local Ingredients Are Changing Fine Dining</h3>
+                                    <p>Exploring the farm-to-table movement and its impact on culinary experiences.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="loop-item">
+                                <div class="loop-tag">
+                                    <svg class="icon-loop" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8 7V3M16 7V3M7 11H17M5 21H19C20.1046 21 21 20.1046 21 19V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V19C3 20.1046 3.89543 21 5 21Z" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                    <div>Content Calendar</div>
+                                </div>
+                                <div style="text-align: center; padding: 1rem 0;">
+                                    <div style="font-weight: 600;">Plan. Schedule. Publish.</div>
+                                </div>
+                            </div>
+                            
+                            <div class="loop-item">
+                                <div class="loop-tag">
+                                    <svg class="icon-loop" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M15 5V7M15 11V13M15 17V19M5 5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V19C19 19.5304 18.7893 20.0391 18.4142 20.4142C18.0391 20.7893 17.5304 21 17 21H7C6.46957 21 5.96086 20.7893 5.58579 20.4142C5.21071 20.0391 5 19.5304 5 19V5Z" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                    <div>Analytics Dashboard</div>
+                                </div>
+                                <div style="text-align: center; padding: 1rem 0; font-weight: 600;">
+                                    Track Performance Metrics
+                                </div>
+                            </div>
+
+                            <!-- Duplicate set for seamless looping -->
+                            <div class="loop-item">
+                                <div class="loop-tag">
+                                    <svg class="icon-loop" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M19 11H5M5 11L9 7M5 11L9 15" stroke="currentColor" stroke-width="2"/>
+                                        <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                    <div>Email Design</div>
+                                </div>
+                                <div style="text-align: center; padding: 1rem 0;">
+                                    <div style="font-weight: 600; margin-bottom: 0.5rem;">NEW STYLES</div>
+                                    <div>JUST DROPPED</div>
+                                </div>
+                            </div>
+                            
+                            <div class="loop-item">
+                                <div class="carousel-widget">
+                                    <div class="carousel-item">
+                                        <svg class="carousel-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M19 12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12Z" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M12 2V4" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M12 20V22" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M4 12H2" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M22 12H20" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                        <div class="carousel-text">SEO Backlinks</div>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <svg class="carousel-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M8 12H16M8 8H16M8 16H12" stroke="currentColor" stroke-width="2"/>
+                                            <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                                        </svg>
+                                        <div class="carousel-text">Content Strategy</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="loop-item">
+                                <div class="blog-preview" style="border-left-color: #10b981;">
+                                    <div class="blog-category">Food & Beverages</div>
+                                    <h3 class="blog-title">How Local Ingredients Are Changing Fine Dining</h3>
+                                    <p>Exploring the farm-to-table movement and its impact on culinary experiences.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="loop-item">
+                                <div class="loop-tag">
+                                    <svg class="icon-loop" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8 7V3M16 7V3M7 11H17M5 21H19C20.1046 21 21 20.1046 21 19V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V19C3 20.1046 3.89543 21 5 21Z" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                    <div>Content Calendar</div>
+                                </div>
+                                <div style="text-align: center; padding: 1rem 0;">
+                                    <div style="font-weight: 600;">Plan. Schedule. Publish.</div>
+                                </div>
+                            </div>
+                            
+                            <div class="loop-item">
+                                <div class="loop-tag">
+                                    <svg class="icon-loop" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M15 5V7M15 11V13M15 17V19M5 5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V19C19 19.5304 18.7893 20.0391 18.4142 20.4142C18.0391 20.7893 17.5304 21 17 21H7C6.46957 21 5.96086 20.7893 5.58579 20.4142C5.21071 20.0391 5 19.5304 5 19V5Z" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                    <div>Analytics Dashboard</div>
+                                </div>
+                                <div style="text-align: center; padding: 1rem 0; font-weight: 600;">
+                                    Track Performance Metrics
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Pause animation on hover
+        document.querySelectorAll('.loop-track').forEach(track => {
+            track.addEventListener('mouseenter', () => {
+                track.style.animationPlayState = 'paused';
+            });
+            
+            track.addEventListener('mouseleave', () => {
+                track.style.animationPlayState = 'running';
+            });
+        });
+    </script>
+</body>
+</html>

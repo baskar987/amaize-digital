@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multicolor Ambient Glow Border</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #0f1120;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .content {
+            max-width: 800px;
+            padding: 2rem;
+            text-align: center;
+            z-index: 10;
+        }
+        
+        h1 {
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #ff4d4d, #f9cb28, #4df9ff, #d84dff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: titleShift 8s linear infinite;
+        }
+        
+        p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .controls {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .glow-border {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        
+        .glow-effect {
+            position: absolute;
+            animation: glowMove 15s linear infinite;
+            filter: blur(40px);
+            opacity: 0.7;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+        }
+        
+        .glow-1 {
+            background: linear-gradient(45deg, #ff4d4d, #f9cb28);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 20s;
+        }
+        
+        .glow-2 {
+            background: linear-gradient(45deg, #4df9ff, #d84dff);
+            top: 60%;
+            left: 80%;
+            animation-delay: -5s;
+            animation-duration: 25s;
+        }
+        
+        .glow-3 {
+            background: linear-gradient(45deg, #4dff91, #4db3ff);
+            top: 80%;
+            left: 20%;
+            animation-delay: -10s;
+            animation-duration: 30s;
+        }
+        
+        .glow-4 {
+            background: linear-gradient(45deg, #ff4dc9, #ffcb4d);
+            top: 20%;
+            left: 70%;
+            animation-delay: -15s;
+            animation-duration: 35s;
+        }
+        
+        @keyframes glowMove {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(calc(100vw - 350px), calc(100vh - 350px)) scale(1.5);
+            }
+            50% {
+                transform: translate(calc(100vw - 350px), 0) scale(1.2);
+            }
+            75% {
+                transform: translate(0, calc(100vh - 350px)) scale(1.7);
+            }
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+        }
+        
+        @keyframes titleShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .instructions {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+            text-align: left;
+        }
+        
+        .instructions h2 {
+            margin-bottom: 0.5rem;
+            color: #4df9ff;
+        }
+        
+        .instructions ul {
+            padding-left: 1.5rem;
+        }
+        
+        .instructions li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="glow-border">
+        <div class="glow-effect glow-1"></div>
+        <div class="glow-effect glow-2"></div>
+        <div class="glow-effect glow-3"></div>
+        <div class="glow-effect glow-4"></div>
+    </div>
+    
+    <div class="content">
+        <h1>Multicolor Ambient Glow</h1>
+        <p>A dynamic, fluid light display that moves around the edges of your screen</p>
+        
+        <div class="controls">
+            <p>This effect creates a continuous four-sided lighting animation with multiple colors.</p>
+            <p>The gradient colors shift smoothly between warm and cool tones for a vibrant look.</p>
+        </div>
+        
+        <div class="instructions">
+            <h2>How to Use as a Chrome Extension</h2>
+            <ul>
+                <li>Copy the entire code from this page</li>
+                <li>Create a new file named <code>multicolor-glow.html</code> and paste the code</li>
+                <li>Open Chrome and navigate to <code>chrome://extensions</code></li>
+                <li>Enable "Developer mode" (toggle in top right)</li>
+                <li>Click "Load unpacked" and select the folder containing your HTML file</li>
+                <li>Pin the extension for easy access</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Additional animation effects with JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            const glowEffects = document.querySelectorAll('.glow-effect');
+            
+            // Add mousemove interaction
+            document.addEventListener('mousemove', function(e) {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                glowEffects.forEach((glow, index) => {
+                    // Create a subtle interaction with mouse movement
+                    const moveX = (x - 0.5) * 40;
+                    const moveY = (y - 0.5) * 40;
+                    
+                    // Apply the transformation with a delay based on index
+                    setTimeout(() => {
+                        glow.style.transform += ` translate(${moveX}px, ${moveY}px)`;
+                    }, index * 100);
+                });
+            });
+            
+            // Periodically change blur intensity for a more dynamic effect
+            setInterval(() => {
+                glowEffects.forEach(glow => {
+                    const randomBlur = 30 + Math.random() * 30;
+                    glow.style.filter = `blur(${randomBlur}px)`;
+                    
+                    const randomOpacity = 0.5 + Math.random() * 0.3;
+                    glow.style.opacity = randomOpacity;
+                });
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
